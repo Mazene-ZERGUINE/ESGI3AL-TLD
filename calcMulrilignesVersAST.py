@@ -21,7 +21,7 @@ reserved = {
 tokens = [
     'NAME','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS', "ISEQUAL", "NOTEQUAL",
-    'LPAREN','RPAREN', 'SEMI',
+    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",
     'SUP' , "INFF" ] + list(reserved.values())
 # Tokens
 
@@ -37,6 +37,8 @@ t_SUP = r'>'
 t_INFF = r'<'
 t_ISEQUAL = r'=='
 t_NOTEQUAL = r'!='
+t_ET = r'&' 
+t_OU = r'\|'
 
 
 
@@ -123,6 +125,9 @@ def evalExpr(p):
         if p[0] == '<' : return evalExpr(p[1]) < evalExpr(p[2])
         if(p[0] == "==") : return evalExpr(p[1]) == evalExpr(p[2])
         if(p[0] == "!=") : return evalExpr(p[1]) != evalExpr(p[2])
+        if(p[0] == "&") : return evalExpr(p[1]) & evalExpr(p[2])
+        if(p[0] == "|") : return evalExpr(p[1]) | evalExpr(p[2])
+
 
         
     return 'undifiedn'
@@ -168,6 +173,9 @@ def p_expression_binop(p):
                   | expression INFF expression
                   | expression ISEQUAL expression
                   | expression NOTEQUAL expression
+                  | expression ET expression
+                  | expression OU expression
+
                   '''
     p[0] = (p[2], p[1] , p[3])
 
