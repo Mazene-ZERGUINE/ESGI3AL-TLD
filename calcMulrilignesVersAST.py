@@ -13,7 +13,8 @@ reserved = {
     'print' : 'PRINT',
     'if' : 'IF' ,
     'OR' : 'or' ,
-    'AND' : 'and',    
+    'AND' : 'and',
+    'if' : 'IF' , 
 }
 
 ############################## Tokens #############################
@@ -21,7 +22,7 @@ reserved = {
 tokens = [
     'NAME','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS', "ISEQUAL", "NOTEQUAL",
-    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",
+    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' ,
     'SUP' , "INFF" ] + list(reserved.values())
 # Tokens
 
@@ -39,6 +40,9 @@ t_ISEQUAL = r'=='
 t_NOTEQUAL = r'!='
 t_ET = r'&' 
 t_OU = r'\|'
+t_RACC = r'{'
+t_LACC = r'}'
+t_THEN = r'->'
 
 
 
@@ -105,9 +109,9 @@ def evalInst(p):
     if p[0] == 'PRINT':
         print("CALC >> ", evalExpr(p[1]))
     
-    if p[0] == 'IF':
-        if(evalExpr(p[1]) == True):
-            return evalInst(p[2])
+    if p[0] == "IF":
+        if (len(p) == 3) : 
+            if evalExpr(p[1]) == True : return evalInst(p[2])
 
     return 'undifiend'
 
@@ -157,6 +161,17 @@ def p_statement_assign(p):
     p[0] = ('ASSIGN', p[1], p[3])
 
 
+def p_if_els_statement(p):
+    ''' statement : IF expression THEN statement
+                  | IF expression THEN RACC bloc LACC  
+    
+    '''
+
+    if p[4] == '{':
+        p[0] = ('IF' , p[2] , p[5])
+    else:
+        p[0] = ('IF' , p[2] , p[4])
+        
 def p_statement_print(p):
     'statement : PRINT LPAREN expression RPAREN SEMI'
     p[0] = ('PRINT', p[3])
