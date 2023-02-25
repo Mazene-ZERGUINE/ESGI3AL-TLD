@@ -15,6 +15,8 @@ reserved = {
     'OR' : 'or' ,
     'AND' : 'and',
     'if' : 'IF' , 
+    'else' : 'ELSE',
+    'elseif' : 'ELSEIF'
 }
 
 ############################## Tokens #############################
@@ -109,9 +111,9 @@ def evalInst(p):
     if p[0] == 'PRINT':
         print("CALC >> ", evalExpr(p[1]))
     
-    if p[0] == "IF":
-        if (len(p) == 3) : 
-            if evalExpr(p[1]) == True : return evalInst(p[2])
+    if p[0] == "IF": eval_if_elseif_else(p)
+
+            
 
     return 'undifiend'
 
@@ -135,7 +137,18 @@ def evalExpr(p):
 
         
     return 'undifiedn'
-    
+
+
+def eval_if_elseif_else(p) : 
+    if (len(p) == 3) : 
+        if evalExpr(p[1]) == True : return evalInst(p[2])
+    elif len(p) == 4:
+        if evalExpr(p[1]) == True : return evalInst(p[2]) 
+        else : return evalInst(p[3])
+    else :
+        if evalExpr(p[1]) == True : return evalInst(p[2])
+        elif evalExpr(p[3]) == True : return evalInst(p[4]) 
+        else : return evalInst(p[5])
 
 ############################## gramar and parsing #############################
 
@@ -164,13 +177,15 @@ def p_statement_assign(p):
 def p_if_els_statement(p):
     ''' statement : IF expression THEN statement
                   | IF expression THEN RACC bloc LACC  
+                  | IF expression THEN RACC bloc LACC ELSEIF expression THEN RACC bloc LACC ELSE RACC bloc LACC 
+                  | IF expression THEN RACC bloc LACC ELSE RACC bloc LACC 
     
     '''
-
-    if p[4] == '{':
-        p[0] = ('IF' , p[2] , p[5])
-    else:
-        p[0] = ('IF' , p[2] , p[4])
+    print(len(p))
+    if len(p) == 5 : p[0] = ('IF' , p[2] , p[4]) 
+    if len(p) == 7 : p[0] = ('IF' , p[2], p[5]) 
+    if len(p) == 17 : p[0] = ('IF' , p[2] , p[5] , p[8] , p[11] , p[15])
+    if len(p) == 11 : p[0] = ('IF' , p[2] , p[5] , p[9])
         
 def p_statement_print(p):
     'statement : PRINT LPAREN expression RPAREN SEMI'
