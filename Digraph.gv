@@ -1,0 +1,12 @@
+digraph {
+	node [shape=circle]
+	"4e1faa40-e3ae-4c80-a102-93a8d5df37ef" [label=bloc]
+	"5c9d2f17-9268-48da-b8a0-b37f5b0d3b73" [label=ASSIGN]
+	"63c81ad9-ad9b-47d5-a986-c9c8c49855b3" [label=x]
+	"5c9d2f17-9268-48da-b8a0-b37f5b0d3b73" -> "63c81ad9-ad9b-47d5-a986-c9c8c49855b3" [arrowsize=0]
+	"86c23040-d46a-47e1-82bc-d8a324dd7d3b" [label=3]
+	"5c9d2f17-9268-48da-b8a0-b37f5b0d3b73" -> "86c23040-d46a-47e1-82bc-d8a324dd7d3b" [arrowsize=0]
+	"4e1faa40-e3ae-4c80-a102-93a8d5df37ef" -> "5c9d2f17-9268-48da-b8a0-b37f5b0d3b73" [arrowsize=0]
+	"1897ae3e-5a5e-4304-90ef-9773ff6d99e9" [label=empty]
+	"4e1faa40-e3ae-4c80-a102-93a8d5df37ef" -> "1897ae3e-5a5e-4304-90ef-9773ff6d99e9" [arrowsize=0]
+}
