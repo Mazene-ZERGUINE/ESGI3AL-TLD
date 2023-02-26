@@ -30,8 +30,13 @@ reserved = {
 tokens = [
     'NAME','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS', "ISEQUAL", "NOTEQUAL",
+<<<<<<< HEAD
     'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' , "COMMA", 'STRING',
     'SUP' , "INFF" , 'COMMENT' , "INCR" , "DECR" , 'PLUSEQ' , 'MINEQ'] + list(reserved.values())
+=======
+    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' , "COMMA",
+    'SUP' , "INFF" , 'COMMENT' , "STRING" , "INCR" , "DECR"] + list(reserved.values())
+>>>>>>> 03aa536 (++ and --)
 # Tokens
 
 t_PLUS    = r'\+'
@@ -52,11 +57,17 @@ t_RACC = r'{'
 t_LACC = r'}'
 t_THEN = r'->'
 t_COMMA = r',' 
+<<<<<<< HEAD
 t_INCR = r'\+\+'
 t_DECR = r'--'
 t_PLUSEQ = r'\+\='
 t_MINEQ = r'-='
 t_STRING = r'"[^"]+"'
+=======
+t_STRING = r'"[^"]+"'
+t_INCR = r'\++'
+t_DECR = r'--'
+>>>>>>> 03aa536 (++ and --)
 
 
 
@@ -119,7 +130,11 @@ def evalInst(p):
 
     if p[0] == 'ASSIGN':names[p[1]] = evalExpr(p[2])
     if p[0] == 'PRINT':print("CALC >> ", evalExpr(p[1]))
+<<<<<<< HEAD
     if p[0] == 'PRINTSTR' : print("CALC >> " , p[1])
+=======
+    if p[0] == "PRINTSTR" : print("CALC >> ", p[1])
+>>>>>>> 03aa536 (++ and --)
     if p[0] == "IF": eval_if_elseif_else(p)
     if p[0] == "FOR" : eval_for_loop(p)
     if p[0] == "WHILE" : eval_while_loop(p)
@@ -186,7 +201,11 @@ def eval_for_loop(p):
     elif names[p[1][1]] > p[2] :
         while names[p[1][1]] >= p[2] :
             evalInst(p[4])
+<<<<<<< HEAD
             evalInst(p[3]) 
+=======
+            evalInst(p[3])  
+>>>>>>> 03aa536 (++ and --)
 
 
 def eval_while_loop(p):
@@ -235,8 +254,8 @@ def p_while_statement(p):
     p[0] = ('WHILE' , p[2] , p[4])
 
 def p_for_loop(p):
-    ''' statement : FOR LPAREN statement TO NUMBER COMMA statement RPAREN RACC bloc LACC '''
-    p[0] = ('FOR' , p[3] , p[5] , p[7] , p[10])
+    ''' statement : FOR LPAREN statement TO NUMBER COMMA statement RPAREN '''
+    #p[0] = ('FOR' , p[3] , p[5] , p[7] , p[10])
         
         
 def p_if_els_statement(p):
@@ -255,6 +274,7 @@ def p_statement_print(p):
     '''statement : PRINT LPAREN expression RPAREN SEMI 
                  | PRINT STRING SEMI'''
     if len(p) == 4 :
+<<<<<<< HEAD
         p[0] = ('PRINTSTR' , p[2])
     else:
         p[0] = ('PRINT', p[3])
@@ -294,6 +314,11 @@ def p_expressions(p):
         p[0] = p[1]
     else:
         p[0] = p[3], p[1]
+=======
+        p[0] = ("PRINTSTR" , p[2])
+    else :
+        p[0] = ('PRINT', p[3])
+>>>>>>> 03aa536 (++ and --)
 
 
 def p_expression_binop(p):
@@ -314,6 +339,7 @@ def p_expression_binop(p):
     p[0] = (p[2], p[1] , p[3])
 
 
+<<<<<<< HEAD
 def p_incr_decr(p):
     ''' statement : NAME INCR SEMI 
                   | NAME DECR SEMI 
@@ -337,6 +363,16 @@ def p_plus_min_eq(p):
     if p[2] == "-=":
         p[0] = ('ASSIGN' , p[1] , ('-' , p[1] , p[3]))    
     
+=======
+def p_incr_decr_statement(p):
+    ''' statement : NAME INCR SEMI 
+                  | NAME DECR SEMI'''
+    if p[2] == '++' :
+        p[0] = ('ASSIGN' ,p[1], ('+' , p[1] , 1)) 
+    if p[2] == '--':
+        p[0] = ('ASSIGN' ,p[1], ('-' , p[1] , 1)) 
+
+>>>>>>> 03aa536 (++ and --)
 
 def p_expression_uminus(p):
     'expression : MINUS expression '
