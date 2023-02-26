@@ -16,7 +16,9 @@ reserved = {
     'AND' : 'and',
     'if' : 'IF' , 
     'else' : 'ELSE',
-    'elseif' : 'ELSEIF'
+    'elseif' : 'ELSEIF',
+    'for' : 'FOR',
+    'to' : 'TO'
 }
 
 ############################## Tokens #############################
@@ -24,7 +26,7 @@ reserved = {
 tokens = [
     'NAME','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS', "ISEQUAL", "NOTEQUAL",
-    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' ,
+    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' , "COMMA",
     'SUP' , "INFF" ] + list(reserved.values())
 # Tokens
 
@@ -45,6 +47,7 @@ t_OU = r'\|'
 t_RACC = r'{'
 t_LACC = r'}'
 t_THEN = r'->'
+t_COMMA = r',' 
 
 
 
@@ -105,13 +108,10 @@ def evalInst(p):
         evalInst(p[2])
         return 
 
-    if p[0] == 'ASSIGN':
-        names[p[1]] = evalExpr(p[2])
-
-    if p[0] == 'PRINT':
-        print("CALC >> ", evalExpr(p[1]))
-    
+    if p[0] == 'ASSIGN':names[p[1]] = evalExpr(p[2])
+    if p[0] == 'PRINT':print("CALC >> ", evalExpr(p[1]))
     if p[0] == "IF": eval_if_elseif_else(p)
+    if p[0] == "FOR" : eval_for_loop(p)
 
             
 
@@ -137,6 +137,17 @@ def evalExpr(p):
 
         
     return 'undifiedn'
+
+def eval_for_loop(p):
+    evalInst(p[1])
+    if names[p[1][1]] < p[2] :
+        while names[p[1][1]] <= p[2] :
+            evalInst(p[4])
+            evalInst(p[3])
+    if names[p[1][1]] > p[2] :
+        while names[p[1][1]] >= p[2] :
+            evalInst(p[4])
+            evalInst(p[3])    
 
 
 def eval_if_elseif_else(p) : 
@@ -170,10 +181,16 @@ def p_bloc(p):
 
 
 def p_statement_assign(p):
-    'statement : NAME EQUALS expression SEMI  '
+    '''statement : NAME EQUALS expression SEMI 
+                 | NAME EQUALS expression '''
     p[0] = ('ASSIGN', p[1], p[3])
 
 
+def p_for_loop(p):
+    ''' statement : FOR LPAREN statement TO NUMBER COMMA statement RPAREN RACC bloc LACC '''
+    p[0] = ('FOR' , p[3] , p[5] , p[7] , p[10])
+        
+        
 def p_if_els_statement(p):
     ''' statement : IF expression THEN statement
                   | IF expression THEN RACC bloc LACC  
@@ -181,7 +198,6 @@ def p_if_els_statement(p):
                   | IF expression THEN RACC bloc LACC ELSE RACC bloc LACC 
     
     '''
-    print(len(p))
     if len(p) == 5 : p[0] = ('IF' , p[2] , p[4]) 
     if len(p) == 7 : p[0] = ('IF' , p[2], p[5]) 
     if len(p) == 17 : p[0] = ('IF' , p[2] , p[5] , p[8] , p[11] , p[15])
