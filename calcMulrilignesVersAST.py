@@ -18,7 +18,8 @@ reserved = {
     'else' : 'ELSE',
     'elseif' : 'ELSEIF',
     'for' : 'FOR',
-    'to' : 'TO'
+    'to' : 'TO',
+    'while' : 'WHILE'
 }
 
 ############################## Tokens #############################
@@ -27,7 +28,7 @@ tokens = [
     'NAME','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS', "ISEQUAL", "NOTEQUAL",
     'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' , "COMMA",
-    'SUP' , "INFF" ] + list(reserved.values())
+    'SUP' , "INFF" , 'COMMENT'] + list(reserved.values())
 # Tokens
 
 t_PLUS    = r'\+'
@@ -112,6 +113,7 @@ def evalInst(p):
     if p[0] == 'PRINT':print("CALC >> ", evalExpr(p[1]))
     if p[0] == "IF": eval_if_elseif_else(p)
     if p[0] == "FOR" : eval_for_loop(p)
+    if p[0] == "WHILE" : eval_while_loop(p)
 
             
 
@@ -150,6 +152,11 @@ def eval_for_loop(p):
             evalInst(p[3])    
 
 
+def eval_while_loop(p):
+    while  evalExpr(p[1]):
+        evalInst(p[2])
+    
+
 def eval_if_elseif_else(p) : 
     if (len(p) == 3) : 
         if evalExpr(p[1]) == True : return evalInst(p[2])
@@ -185,6 +192,10 @@ def p_statement_assign(p):
                  | NAME EQUALS expression '''
     p[0] = ('ASSIGN', p[1], p[3])
 
+
+def p_while_statement(p):
+    ''' statement : WHILE expression RACC bloc LACC '''
+    p[0] = ('WHILE' , p[2] , p[4])
 
 def p_for_loop(p):
     ''' statement : FOR LPAREN statement TO NUMBER COMMA statement RPAREN RACC bloc LACC '''
