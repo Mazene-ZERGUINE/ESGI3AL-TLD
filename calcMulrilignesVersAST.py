@@ -158,9 +158,25 @@ def eval_function(p):
         functions[p[1]] = (p[2] , p[3])
     
 def eval_function_call(p):
-    function = functions[p[1]]
-    return evalInst(function)
+    if p[2] == 'empty':
+        return evalInst(functions[p[1]])
+    else:
+        call_params = p[2]
+        function_params = functions[p[1]][1]
 
+        if(type(call_params) == int and type(function_params) == str) :
+            names[function_params] = call_params
+        
+        if(len(call_params[0]) != len(function_params[0])):
+            raise ValueError("function" + p[1] + "expectes " + len(function_params[0]) + 1 + "params")
+        else :
+            names[function_params[1]] = call_params[1]
+            for i in range(len(call_params)):
+                names[function_params[0][i]] = call_params[0][i]
+        
+        return evalInst(functions[p[1]][0])  
+    
+              
 def eval_for_loop(p):
     evalInst(p[1])
     if names[p[1][1]] < p[2] :
@@ -244,15 +260,41 @@ def p_statement_print(p):
         p[0] = ('PRINT', p[3])
 
 
-def p_function(p):
-    ''' statement : FUNCTION NAME LPAREN RPAREN START bloc END '''
+def p_parameters(p):
+    """params : NAME
+              | NAME COMMA params"""
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = (p[3], p[1])
+
     
-    p[0] = ('function' , p[2] , p[6] , 'empty')
+def p_function(p):
+    ''' statement : FUNCTION NAME LPAREN RPAREN START bloc END 
+                  | FUNCTION NAME LPAREN params RPAREN START bloc END '''
+    
+    if len(p) == 8 :
+        p[0] = ('function' , p[2] , p[6] , 'empty')
+    else:
+        p[0] = ('function' , p[2] , p[7] , p[4])
 
 
 def p_function_call(p):
-    ''' statement : NAME LPAREN RPAREN SEMI '''
-    p[0] = ('CALL' , p[1] , 'empty') 
+    ''' statement : NAME LPAREN RPAREN SEMI 
+                  | NAME LPAREN param_call RPAREN SEMI'''
+    if (len(p)) == 6:
+        p[0] = ('CALL' , p[1] , p[3] )
+    else:
+        p[0] = ('CALL' , p[1] , 'empty') 
+
+def p_expressions(p):
+    """param_call : expression
+                   | expression COMMA param_call"""
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[3], p[1]
+
 
 def p_expression_binop(p):
     '''expression : expression PLUS expression
