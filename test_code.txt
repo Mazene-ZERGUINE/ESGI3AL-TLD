@@ -1,0 +1,8 @@
+fun caree()
+    start 
+
+    if (x == 3) -> print "hello" ;
+
+    end
+
+caree() ;

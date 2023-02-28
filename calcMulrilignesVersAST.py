@@ -19,7 +19,10 @@ reserved = {
     'elseif' : 'ELSEIF',
     'for' : 'FOR',
     'to' : 'TO',
-    'while' : 'WHILE'
+    'while' : 'WHILE',
+    'fun' : 'FUNCTION',
+    'start' : 'START' ,
+    'end' : 'END' 
 }
 
 ############################## Tokens #############################
@@ -27,8 +30,8 @@ reserved = {
 tokens = [
     'NAME','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS', "ISEQUAL", "NOTEQUAL",
-    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' , "COMMA",
-    'SUP' , "INFF" , 'COMMENT'] + list(reserved.values())
+    'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' , "COMMA", 'STRING',
+    'SUP' , "INFF" , 'COMMENT' , "INCR" , "DECR" , 'PLUSEQ' , 'MINEQ'] + list(reserved.values())
 # Tokens
 
 t_PLUS    = r'\+'
@@ -49,6 +52,11 @@ t_RACC = r'{'
 t_LACC = r'}'
 t_THEN = r'->'
 t_COMMA = r',' 
+t_INCR = r'\+\+'
+t_DECR = r'--'
+t_PLUSEQ = r'\+\='
+t_MINEQ = r'-='
+t_STRING = r'"[^"]+"'
 
 
 
@@ -93,10 +101,10 @@ precedence = (
     )
  
 names = {}
+functions = {}
 
 def evalInst(p):
     # Normalement faire que 
-    print('EvalInst de ', p)
 
     if p == 'empty' : return 
 
@@ -111,9 +119,12 @@ def evalInst(p):
 
     if p[0] == 'ASSIGN':names[p[1]] = evalExpr(p[2])
     if p[0] == 'PRINT':print("CALC >> ", evalExpr(p[1]))
+    if p[0] == 'PRINTSTR' : print("CALC >> " , p[1])
     if p[0] == "IF": eval_if_elseif_else(p)
     if p[0] == "FOR" : eval_for_loop(p)
     if p[0] == "WHILE" : eval_while_loop(p)
+    if p[0] == 'function' : eval_function(p) 
+    if p[0] == 'CALL' : eval_function_call(p)
 
             
 
@@ -140,16 +151,26 @@ def evalExpr(p):
         
     return 'undifiedn'
 
+def eval_function(p):
+    if p[3] == 'empty' :
+        functions[p[1]] = p[2]
+    else :
+        functions[p[1]] = (p[2] , p[3])
+    
+def eval_function_call(p):
+    function = functions[p[1]]
+    return evalInst(function)
+
 def eval_for_loop(p):
     evalInst(p[1])
     if names[p[1][1]] < p[2] :
         while names[p[1][1]] <= p[2] :
             evalInst(p[4])
             evalInst(p[3])
-    if names[p[1][1]] > p[2] :
+    elif names[p[1][1]] > p[2] :
         while names[p[1][1]] >= p[2] :
             evalInst(p[4])
-            evalInst(p[3])    
+            evalInst(p[3]) 
 
 
 def eval_while_loop(p):
@@ -215,9 +236,23 @@ def p_if_els_statement(p):
     if len(p) == 11 : p[0] = ('IF' , p[2] , p[5] , p[9])
         
 def p_statement_print(p):
-    'statement : PRINT LPAREN expression RPAREN SEMI'
-    p[0] = ('PRINT', p[3])
+    '''statement : PRINT LPAREN expression RPAREN SEMI 
+                 | PRINT STRING SEMI'''
+    if len(p) == 4 :
+        p[0] = ('PRINTSTR' , p[2])
+    else:
+        p[0] = ('PRINT', p[3])
 
+
+def p_function(p):
+    ''' statement : FUNCTION NAME LPAREN RPAREN START bloc END '''
+    
+    p[0] = ('function' , p[2] , p[6] , 'empty')
+
+
+def p_function_call(p):
+    ''' statement : NAME LPAREN RPAREN SEMI '''
+    p[0] = ('CALL' , p[1] , 'empty') 
 
 def p_expression_binop(p):
     '''expression : expression PLUS expression
@@ -236,6 +271,30 @@ def p_expression_binop(p):
                   '''
     p[0] = (p[2], p[1] , p[3])
 
+
+def p_incr_decr(p):
+    ''' statement : NAME INCR SEMI 
+                  | NAME DECR SEMI 
+                  | NAME INCR 
+                  | NAME DECR'''
+    
+    if p[2] == "++":
+        p[0] = ('ASSIGN' , p[1] , ('+' , p[1] , 1))
+    if p[2] == "--":
+        p[0] = ('ASSIGN' , p[1] , ('-' , p[1] , 1))
+    
+ 
+
+def p_plus_min_eq(p):
+    ''' statement : NAME PLUSEQ NUMBER SEMI 
+                  | NAME MINEQ NUMBER SEMI 
+                  | NAME PLUSEQ NUMBER 
+                  | NAME MINEQ NUMBER '''
+    if p[2] == "+=":
+        p[0] = ('ASSIGN' , p[1] , ('+' , p[1] , p[3]))
+    if p[2] == "-=":
+        p[0] = ('ASSIGN' , p[1] , ('-' , p[1] , p[3]))    
+    
 
 def p_expression_uminus(p):
     'expression : MINUS expression '
