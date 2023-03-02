@@ -1,0 +1,14 @@
+/****** simple addition  ******/ 
+x = 4 ; 
+x = x + 5 ;
+print(x) ; /* 9 */
+
+/****** plus plus ******/ 
+z = 1 ; 
+z ++ ; 
+print (z) ;   /* 2 */
+
+/******* plus equals *******/
+y = 2 ; 
+y += 8 ;
+print (y) ; /* 10 */

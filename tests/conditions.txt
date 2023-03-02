@@ -1,0 +1,18 @@
+/*  one instruction if statament  */
+x = 2 ; 
+if (x == 2) -> print "hello world" ;
+
+/*  bloc if statement  */
+if (x == 2) -> {
+    n = 2 ; 
+    print (n) ;
+}
+
+/* if else else if statment  */
+if (x == 4) -> {
+    print(n) ; 
+} elseif(x < 4) -> {
+    print "ok" ;
+} else {
+    print "x < 4" ; 
+}

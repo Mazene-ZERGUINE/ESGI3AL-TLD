@@ -1,0 +1,27 @@
+/* function without params params  */
+
+fun test() 
+    start 
+        print "hello world" ;
+    end 
+
+test() ;
+
+/* function with params  */
+fun testWithParams(a) 
+    start 
+        print (a) ; 
+    end 
+
+testWithParams(1) ;
+
+/* function with multi params */ 
+
+fun multiParams (a , b , c) 
+    start 
+        print (c) ; 
+        print(a + b) ;
+    end 
+
+multiParams(1 , 4 , 8) ;
+
