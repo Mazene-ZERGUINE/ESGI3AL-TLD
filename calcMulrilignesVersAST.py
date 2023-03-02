@@ -22,7 +22,8 @@ reserved = {
     'while' : 'WHILE',
     'fun' : 'FUNCTION',
     'start' : 'START' ,
-    'end' : 'END' 
+    'end' : 'END' ,
+    'return': 'RETURN',
 }
 
 ############################## Tokens #############################
@@ -126,6 +127,7 @@ def evalInst(p):
     if p[0] == "WHILE" : eval_while_loop(p)
     if p[0] == 'function' : eval_function(p) 
     if p[0] == 'CALL' : eval_function_call(p)
+    if p[0] == 'RETURN' : return evalExpr(p[1])
 
             
 
@@ -147,8 +149,6 @@ def evalExpr(p):
         if(p[0] == "!=") : return evalExpr(p[1]) != evalExpr(p[2])
         if(p[0] == "&") : return evalExpr(p[1]) & evalExpr(p[2])
         if(p[0] == "|") : return evalExpr(p[1]) | evalExpr(p[2])
-
-
         
     return 'undifiedn'
 
@@ -227,6 +227,10 @@ def p_bloc(p):
     else:
         p[0] = ('bloc', p[1], 'empty')
 
+
+def p_return_statement(p):
+    '''statement : RETURN expression SEMI'''
+    p[0] = ('RETURN', p[2])
 
 def p_statement_assign(p):
     '''statement : NAME EQUALS expression SEMI 
@@ -372,20 +376,24 @@ yacc.yacc()
 ############################## output #############################
 
 
-file = open(sys.argv[1] , "r")
-s = file.read() 
-yacc.parse(s)
-# s = ''
-# while 1 :
 
-#     s = input('calc >>> ')
-#     if s == "exit" :
-#         exit()
-#     elif s == "" :
-#         pass
-#     #s='print(1+2);x=4;x=x+1;'
-#     #s='x=4;x=x+1;print(x+1);'
-#     yacc.parse(s)
+if len(sys.argv) == 1 :
+    s = ''
+    while 1 :
+        s = input('calc >>> ')
+        if s == "exit" :
+            exit()
+        elif s == "" :
+            pass
+        else :
+            #s='print(1+2);x=4;x=x+1;'
+            #s='x=4;x=x+1;print(x+1);'
+            yacc.parse(s)
+else :
+    file = open(sys.argv[1] , "r")
+    s = file.read() 
+    yacc.parse(s)
+
 
 
 # 2h arret cours 
