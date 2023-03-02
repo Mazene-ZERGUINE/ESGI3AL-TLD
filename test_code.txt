@@ -1,21 +1,2 @@
-fun caree(x , y ,z)
-    start 
-        print(x) ; 
-        if (y == 3) -> print "hello world" ; 
-
-        for (i = 0 to 5 , i++) {
-            z += 1 ;
-        }
-        print(z) ;
-    end
-
-
-fun helloWorld() 
-    start
-        print "hello world" ;
-    end
-
-
 print "hello" ;
-caree(12 , 3 ,5);
-
+/** fuck youhello world */

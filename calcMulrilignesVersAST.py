@@ -31,7 +31,7 @@ tokens = [
     'NAME','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS', "ISEQUAL", "NOTEQUAL",
     'LPAREN','RPAREN', 'SEMI', "ET" , "OU",'RACC' , 'LACC', 'THEN' , "COMMA", 'STRING',
-    'SUP' , "INFF" , 'COMMENT' , "INCR" , "DECR" , 'PLUSEQ' , 'MINEQ'] + list(reserved.values())
+    'SUP' , "INFF"  , "INCR" , "DECR" , 'PLUSEQ' , 'MINEQ' , 'COMMENT' , 'COMMENTS'] + list(reserved.values())
 # Tokens
 
 t_PLUS    = r'\+'
@@ -57,6 +57,7 @@ t_DECR = r'--'
 t_PLUSEQ = r'\+\='
 t_MINEQ = r'-='
 t_STRING = r'"[^"]+"'
+t_COMMENTS = r'\/\*.*\*\/'
 
 
 
@@ -119,7 +120,7 @@ def evalInst(p):
 
     if p[0] == 'ASSIGN':names[p[1]] = evalExpr(p[2])
     if p[0] == 'PRINT':print("CALC >> ", evalExpr(p[1]))
-    if p[0] == 'PRINTSTR' : print("CALC >> " , p[1])
+    if p[0] == 'PRINTSTR' : print("CALC >> " , p[1].replace('"',''))
     if p[0] == "IF": eval_if_elseif_else(p)
     if p[0] == "FOR" : eval_for_loop(p)
     if p[0] == "WHILE" : eval_while_loop(p)
@@ -156,7 +157,8 @@ def eval_function(p):
         functions[p[1]] = p[2]
     else :
         functions[p[1]] = (p[2] , p[3])
-    
+        
+        
 def eval_function_call(p):
     if p[2] == 'empty':
         return evalInst(functions[p[1]])
@@ -239,7 +241,11 @@ def p_while_statement(p):
 def p_for_loop(p):
     ''' statement : FOR LPAREN statement TO NUMBER COMMA statement RPAREN RACC bloc LACC '''
     p[0] = ('FOR' , p[3] , p[5] , p[7] , p[10])
-        
+
+
+def p_statement_comment(p):
+    '''statement : COMMENTS'''
+    p[0] = ('COMMENT', p[1])
         
 def p_if_els_statement(p):
     ''' statement : IF expression THEN statement
