@@ -127,7 +127,7 @@ def evalInst(p):
     if p[0] == "WHILE" : eval_while_loop(p)
     if p[0] == 'function' : eval_function(p) 
     if p[0] == 'CALL' : eval_function_call(p)
-    if p[0] == 'RETURN' : return evalExpr(p[1])
+    if p[0] == 'RETURN' : print('CALC >>  return value : ' , evalExpr(p[1]))
 
             
 
@@ -234,9 +234,6 @@ def p_bloc(p):
         p[0] = ('bloc', p[1], 'empty')
 
 
-def p_return_statement(p):
-    '''statement : RETURN expression SEMI'''
-    p[0] = ('RETURN', p[2])
 
 def p_statement_assign(p):
     '''statement : NAME EQUALS expression SEMI 
@@ -285,6 +282,11 @@ def p_parameters(p):
         p[0] = p[1]
     else:
         p[0] = (p[3], p[1])
+
+
+def p_return_statamene(p):
+    '''statement : RETURN expression SEMI'''
+    p[0] = ('RETURN', p[2])
 
     
 def p_function(p):

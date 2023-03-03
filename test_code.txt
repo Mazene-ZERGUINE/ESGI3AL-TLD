@@ -1,2 +1,10 @@
-print "hello" ;
-/** fuck youhello world */
+fun test(a) 
+    start 
+        a ++ ;
+        if (a > 6) -> return a;
+        
+        return a + 5;
+    end 
+
+
+test(5);
