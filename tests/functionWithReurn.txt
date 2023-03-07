@@ -1,0 +1,7 @@
+fun functionReturn(a) 
+	start 
+		return a + 1 ;
+	end
+
+
+functionReturn(2) ; 
