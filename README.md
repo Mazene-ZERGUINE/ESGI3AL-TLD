@@ -6,7 +6,7 @@ x = 4;
 x = x + 5;
 
 print(x); 
-// 9
+// CALC >>  9
 ```
 
 ## Instructions conditionnelles
@@ -14,8 +14,10 @@ print(x);
 
 x = 3 ; 
 if (x == 3) -> print(x) ;
-// 3 
+// CALC >>  3
+```
 
+```js
 x = 2;
 
 if (x == 2) -> {
@@ -28,57 +30,79 @@ if (x == 2) -> {
     }
 }
 
-// 2
-// 22
+// CALC >>  2
+// CALC >>  22
 ```
 
 ```js
+x = 1;
+
 if (x == 4) -> {
     print(x); 
 } elseif (x < 4) -> {
-    print "ok";
+    print "x < 4";
 } else {
-    print "x < 4"; 
+    print "x > 4"; 
 }
 
-// ok
+// CALC >>  x < 4
 ```
 
 ## While, for imbriques
-
+`for` :
 ```js
-    /* for loop */
-    for (i = 0 to 3 , i++) {
-        print "toto" ; 
-    } 
-    /* 
-    toto 
-    toto 
-    toto
-    */
+for (i = 1 to 3 , i++) {
+    print "i";
 
-   /*  while loop */
-   i = 0 ;
-   while( i < 3 ) {
-    print (i) ;
-   }
-   /* 
-   0
-   1
-   2
-   */
+    for (j = 1 to 3 , j++) {
+      print "J";
+    }
+}
+// CALC >>  i
+// CALC >>  J
+// CALC >>  J
+// CALC >>  J
+// CALC >>  i
+// CALC >>  J
+// CALC >>  J
+// CALC >>  J
+// CALC >>  i
+// CALC >>  J
+// CALC >>  J
+// CALC >>  J
 ```
-...
+
+`while` :
+```js
+i = 0;
+j = 0;
+
+while( i < 3 ) {
+    print(i);
+    i++;
+
+    while( j < 3 ) {
+      print(j);
+      j++;
+    }
+}
+// CALC >>  0
+// CALC >>  0
+// CALC >>  1
+// CALC >>  2
+// CALC >>  1
+// CALC >>  2
+```
 
 ## Affichage de valeur et de chaine de caracteres
 ```js
 print(2 * 5);
-// 10
+// CALC >>  10
 ```
 
 ```python
 print "Bonjour Toto";
-# Bonjour Toto
+# CALC >>  Bonjour Toto
 ```
 
 ## Fonction sans parametre
@@ -90,30 +114,30 @@ fun test()
     end 
 
 test();
-// Bonjour Toto
+// CALC >>  Bonjour Toto
 ```
 
 ## Fonction avec parametre
 ```kotlin
-fun multiParams (a , b , c)
+fun multiParams(a , b , c)
     start
         print(a + b);
         print(c);
     end
 
 multiParams(1, 4, 8);
-// 5
-// 8
+// CALC >>  5
+// CALC >>  8
 ```
 
 ## Fonction avec parametre et return
 ```kotlin
-fun demo (a)
+fun demo(a)
     start
         if (a == 1) -> return a ;
         return a +5 ;
     end
 
 demo(2);
-/* CALC >> ret value : 7  */
+// CALC >> ret value : 7
 ```

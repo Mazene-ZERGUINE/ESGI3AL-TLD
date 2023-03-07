@@ -1,0 +1,22 @@
+for (i = 1 to 3 , i++) {
+    print "i";
+
+    for (j = 1 to 3 , j++) {
+      print "J";
+    }
+
+}
+
+
+i = 0;
+j = 0;
+
+while( i < 3 ) {
+    print(i);
+    i++;
+
+    while( j < 3 ) {
+      print(j);
+      j++;
+    }
+}
