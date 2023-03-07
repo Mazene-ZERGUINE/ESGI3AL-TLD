@@ -28,15 +28,15 @@ if (x == 2) -> {
 ```
 
 ```js
-if (False) {
-    print(1);
-} elif (True) {
-    print(777);
+if (x == 4) -> {
+    print(x); 
+} elseif (x < 4) -> {
+    print "ok";
 } else {
-    print(0);
-};
+    print "x < 4"; 
+}
 
-// 777
+// ok
 ```
 
 ## While, for imbriques
