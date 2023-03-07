@@ -11,15 +11,20 @@ print(x);
 
 ## Instructions conditionnelles
 ```js
+x = 2;
+
 if (x == 2) -> {
     n = 2; 
-    print (n);
+    print(n);
 
     if (x == 2) -> {
         n = 22;
-        print (n);
+        print(n);
     }
 }
+
+// 2
+// 22
 ```
 
 ```js
