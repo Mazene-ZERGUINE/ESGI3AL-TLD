@@ -6,11 +6,16 @@ x = 4;
 x = x + 5;
 
 print(x); 
-// 7
+// 9
 ```
 
 ## Instructions conditionnelles
 ```js
+
+x = 3 ; 
+if (x == 3) -> print(x) ;
+// 3 
+
 x = 2;
 
 if (x == 2) -> {
@@ -40,6 +45,29 @@ if (x == 4) -> {
 ```
 
 ## While, for imbriques
+
+```js
+    /* for loop */
+    for (i = 0 to 3 , i++) {
+        print "toto" ; 
+    } 
+    /* 
+    toto 
+    toto 
+    toto
+    */
+
+   /*  while loop */
+   i = 0 ;
+   while( i < 3 ) {
+    print (i) ;
+   }
+   /* 
+   0
+   1
+   2
+   */
+```
 ...
 
 ## Affichage de valeur et de chaine de caracteres
@@ -76,4 +104,16 @@ fun multiParams (a , b , c)
 multiParams(1, 4, 8);
 // 5
 // 8
+```
+
+## Fonction avec parametre et return
+```kotlin
+fun demo (a)
+    start
+        if (a == 1) -> return a ;
+        return a +5 ;
+    end
+
+demo(2);
+/* CALC >> ret value : 7  */
 ```
