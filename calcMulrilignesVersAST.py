@@ -220,8 +220,7 @@ def eval_if_elseif_else(p) :
 
 def p_start(p):
     '''start : bloc '''
-    p[0] = p[1]
-    #printTreeGraph(p[1])
+    printTreeGraph(p[1])
     evalInst(p[1])
 
 
