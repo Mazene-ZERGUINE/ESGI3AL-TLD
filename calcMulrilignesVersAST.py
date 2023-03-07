@@ -1,5 +1,4 @@
-import graphviz
-from genereTreeGraphviz2 import printTreeGraph
+from tool.genereTreeGraphviz2 import printTreeGraph
 import sys 
 
 # -----------------------------------------------------------------------------
