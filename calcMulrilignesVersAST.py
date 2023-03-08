@@ -23,6 +23,7 @@ reserved = {
     'start' : 'START' ,
     'end' : 'END' ,
     'return': 'RETURN',
+    'def' : 'DEFINE'
 }
 
 ############################## Tokens #############################
@@ -103,6 +104,7 @@ precedence = (
  
 names = {}
 functions = {}
+global_vars = {}
 
 def evalInst(p):
     # Normalement faire que 
@@ -117,7 +119,7 @@ def evalInst(p):
         evalInst(p[1])
         evalInst(p[2])
         return 
-
+    if p[0] == 'global' : global_vars[p[1]] = evalExpr(p[2])
     if p[0] == 'ASSIGN':names[p[1]] = evalExpr(p[2])
     if p[0] == 'PRINT':print("CALC >> ", evalExpr(p[1]))
     if p[0] == 'PRINTSTR' : print("CALC >> " , p[1].replace('"',''))
@@ -134,7 +136,11 @@ def evalInst(p):
 
 def evalExpr(p):
     if type(p) == int : return p
-    if type(p) == str : return names[p]
+    if type(p) == str : 
+        if p in global_vars :
+            return global_vars[p]
+        else:
+            return names[p]
     if type(p) == tuple:
         if p[0] == '+' : return evalExpr(p[1])+evalExpr(p[2])
         if p[0] == '-' : return evalExpr(p[1])-evalExpr(p[2])
@@ -219,7 +225,7 @@ def eval_if_elseif_else(p) :
 
 def p_start(p):
     '''start : bloc '''
-    printTreeGraph(p[1])
+    #printTreeGraph(p[1])
     evalInst(p[1])
 
 
@@ -282,6 +288,19 @@ def p_parameters(p):
         p[0] = (p[3], p[1])
 
 
+def p_multi_compare(p):
+    ''' statement : expression INFF statement
+                  | expression SUP statement 
+                  | expression and statement 
+                  | expression or statement
+                  | expression SEMI '''
+    
+    if len(p) == 3 :
+        p[0] = p[1]
+    else:
+        p[0] = ( p[2], p[1] , p[3])
+
+
 def p_return_statamene(p):
     '''statement : RETURN expression SEMI'''
     p[0] = ('RETURN', p[2])
@@ -312,6 +331,12 @@ def p_expressions(p):
         p[0] = p[1]
     else:
         p[0] = p[3], p[1]
+
+
+def p_global_variables(p):
+    ''' statement : DEFINE NAME EQUALS expression SEMI '''
+    
+    p[0] = ('global' , p[2] , p[4])
 
 
 def p_expression_binop(p):

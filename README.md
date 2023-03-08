@@ -9,6 +9,25 @@ print(x);
 // CALC >>  9
 ```
 
+## multi comparaison 
+```
+js 
+x = 1 < 2 OR 2 > 1 ; 
+print(x) ; 
+
+/* CALC >> True */ 
+```
+
+## global static variables
+````
+python
+def x = 2 ; 
+x = 5 ; 
+print(x) ;
+
+/* CALC >>  2 */
+```
+
 ## Instructions conditionnelles
 ```js
 
