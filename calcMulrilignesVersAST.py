@@ -121,7 +121,12 @@ def evalInst(p):
         return 
     if p[0] == 'global' : global_vars[p[1]] = evalExpr(p[2])
     if p[0] == 'ASSIGN':names[p[1]] = evalExpr(p[2])
-    if p[0] == 'PRINT':print("CALC >> ", evalExpr(p[1]))
+    if p[0] == 'PRINT':
+        if len(p) == 3:
+            print("CALC >> " , evalExpr(p[2]))
+            return evalInst(p[1])
+        else:
+            print("CALC >> ", evalExpr(p[1]))
     if p[0] == 'PRINTSTR' : print("CALC >> " , p[1].replace('"',''))
     if p[0] == "IF": eval_if_elseif_else(p)
     if p[0] == "FOR" : eval_for_loop(p)
@@ -137,6 +142,11 @@ def evalInst(p):
 def evalExpr(p):
     if type(p) == int : return p
     if type(p) == str : 
+        if '"' in p :
+            t = ('PRINTSTR' , p)
+            return evalInst(t)
+        if p not in names and p not in global_vars:
+            raise Exception(p + " variable not initialized") 
         if p in global_vars :
             return global_vars[p]
         else:
@@ -279,6 +289,23 @@ def p_statement_print(p):
         p[0] = ('PRINT', p[3])
 
 
+
+def p_print_prams(p):
+    """print_params : expression
+              | expression COMMA print_params 
+              """
+    
+    if len(p) == 2:
+        p[0] = ( "PRINT", p[1])
+    else:
+        p[0] = ( "PRINT",p[3], p[1])
+        
+
+def p_multi_print(p):
+    ''' statement : PRINT LPAREN print_params  RPAREN SEMI '''
+    
+    p[0] = p[3]
+
 def p_parameters(p):
     """params : NAME
               | NAME COMMA params"""
@@ -391,6 +418,10 @@ def p_expression_group(p):
 
 def p_expression_number(p):
     'expression : NUMBER'
+    p[0] = p[1]
+
+def p_expression_str(p):
+    ''' expression : STRING '''
     p[0] = p[1]
 
 def p_expression_name(p):

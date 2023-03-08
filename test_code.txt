@@ -1,6 +1,6 @@
-def x = 3 ;
+fun test(a) 
+    start 
+    print(a , "test" , 5) ;
+    end 
 
-print(x) ;
-
-x = 2 ; 
-print(x) ;
+test(3) ;

@@ -18,6 +18,29 @@ print(x) ;
 /* CALC >> True */ 
 ```
 
+## multi print 
+,,,
+js 
+
+x = 3 ; 
+y = 2 ;
+
+print(x , y , 12) ;
+/* 
+CALC >> 3 
+CALC >> 2 
+CALC >> 12
+ */
+
+
+ print("hello world" , 2 , "toto") ;
+ /*  
+ CALC >> hello world
+ CALC >> 2 
+ CALC >> toto
+ */
+,,,
+
 ## global static variables
 ````
 python
