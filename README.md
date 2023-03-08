@@ -9,9 +9,24 @@ print(x);
 // CALC >>  9
 ```
 
-## multi comparaison 
+## multi affectation
+```js
+
+x , y , z = 1 , 3 , 5 ;
+
+print(x , y , z) ;
+
+/* 
+CALC >> 1 
+CALC >> 3 
+CALC >> 5
+*/
+
 ```
-js 
+
+
+## multi comparaison 
+```js 
 x = 1 < 2 OR 2 > 1 ; 
 print(x) ; 
 
@@ -19,8 +34,7 @@ print(x) ;
 ```
 
 ## multi print 
-,,,
-js 
+```js 
 
 x = 3 ; 
 y = 2 ;
@@ -39,11 +53,17 @@ CALC >> 12
  CALC >> 2 
  CALC >> toto
  */
-,,,
+
+ print((1+2) , "toto");
+ /* 
+ CALC >> 3 
+ CALC >> toto
+  */
+
+```
 
 ## global static variables
-````
-python
+```python
 def x = 2 ; 
 x = 5 ; 
 print(x) ;
