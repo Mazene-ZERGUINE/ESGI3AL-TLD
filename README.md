@@ -1,5 +1,9 @@
 # Projet mini langage
 
+to run file testes ` python3 calcMulrilignesVersAST.py test_file_name.txt `
+
+to run the programme in terminal mode ` python3 calcMulrilignesVersAST.py `
+
 ## Affectation
 ```js
 x = 4; 
