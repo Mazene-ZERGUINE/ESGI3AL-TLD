@@ -120,7 +120,11 @@ def evalInst(p):
         evalInst(p[2])
         return 
     if p[0] == 'global' : global_vars[p[1]] = evalExpr(p[2])
-    if p[0] == 'ASSIGN':names[p[1]] = evalExpr(p[2])
+    if p[0] == 'ASSIGN':
+        if type(p[2]) == tuple:
+            eval_multi_assignes(p[1] , p[2])
+        else:    
+            names[p[1]] = evalExpr(p[2])
     if p[0] == 'PRINT':
         if len(p) == 3:
             print("CALC >> " , evalExpr(p[2]))
@@ -137,8 +141,15 @@ def evalInst(p):
 
             
 
-    return 'undifiend'
+    return 'undifined'
 
+
+def eval_multi_assignes(p , t):
+    for item1 , item2 in zip(p , t):
+        if isinstance(item1, tuple) and isinstance(item2 , tuple) :
+            eval_multi_assignes(item1 , item2)
+        else:
+            names[item1] = item2 
 def evalExpr(p):
     if type(p) == int : return p
     if type(p) == str : 
@@ -165,7 +176,7 @@ def evalExpr(p):
         if(p[0] == "&") : return evalExpr(p[1]) & evalExpr(p[2])
         if(p[0] == "|") : return evalExpr(p[1]) | evalExpr(p[2])
         
-    return 'undifiedn'
+    return 'undifined'
 
 def eval_function(p):
     if p[3] == 'empty' :
@@ -343,6 +354,13 @@ def p_function(p):
         p[0] = ('function' , p[2] , p[7] , p[4])
 
 
+
+def p_multi_assigne(p):
+    ''' statement : params EQUALS param_call SEMI  '''
+    
+    p[0] = ( "ASSIGN", p[1] , p[3])
+    
+
 def p_function_call(p):
     ''' statement : NAME LPAREN RPAREN SEMI 
                   | NAME LPAREN param_call RPAREN SEMI'''
@@ -358,6 +376,7 @@ def p_expressions(p):
         p[0] = p[1]
     else:
         p[0] = p[3], p[1]
+
 
 
 def p_global_variables(p):

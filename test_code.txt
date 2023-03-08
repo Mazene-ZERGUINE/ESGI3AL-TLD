@@ -1,6 +1,4 @@
-fun test(a) 
-    start 
-    print(a , "test" , 5) ;
-    end 
 
-test(3) ;
+x , y , z = 2 , 2 , 4 ;
+
+print(x , y , z) ;
