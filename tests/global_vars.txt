@@ -1,0 +1,10 @@
+
+define x = 5 ;
+
+fun test()
+    start 
+        x = 2 ;
+        print(x) ;
+    end 
+
+test() ;

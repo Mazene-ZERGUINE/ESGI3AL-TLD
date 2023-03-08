@@ -125,6 +125,7 @@ def evalInst(p):
             eval_multi_assignes(p[1] , p[2])
         else:    
             names[p[1]] = evalExpr(p[2])
+            
     if p[0] == 'PRINT':
         if len(p) == 3:
             print("CALC >> " , evalExpr(p[2]))
@@ -264,6 +265,7 @@ def p_statement_assign(p):
     '''statement : NAME EQUALS expression SEMI 
                  | NAME EQUALS expression '''
     p[0] = ('ASSIGN', p[1], p[3])
+    
 
 
 def p_while_statement(p):
