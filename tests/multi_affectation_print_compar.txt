@@ -4,10 +4,10 @@ x , y , z = 1 , 2 , 3 ;
 
 /*  multi print  */
 
-print(x , y , z , "hello") ;
+print(x , y , z ) ;
 
 /* multi comparaison */ 
 
-res = x > y > z and 5 < 3 ;
+res = x < y < z AND 5 > 3 ;
 
 print(res) ;

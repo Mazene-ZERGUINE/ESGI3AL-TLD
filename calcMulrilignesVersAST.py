@@ -121,7 +121,7 @@ def evalInst(p):
         return 
     if p[0] == 'global' : global_vars[p[1]] = evalExpr(p[2])
     if p[0] == 'ASSIGN':
-        if type(p[2]) == tuple:
+        if type(p[1]) == tuple:
             eval_multi_assignes(p[1] , p[2])
         else:    
             names[p[1]] = evalExpr(p[2])

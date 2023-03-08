@@ -1,5 +1,7 @@
 
-define x = 5 ;
+/* global static variable  */ 
+
+def x = 5 ;
 
 fun test()
     start 
